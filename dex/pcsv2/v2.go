@@ -1399,66 +1399,93 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, er
 		return "", fmt.Errorf("failed to marshal JSON-RPC request: %v", err)
 	}
 
-	// 用于存储所有响应
-	var responses []string
-	var errors []error
-
-	// 向所有builder发送请求
+	// Convert comma-separated BuildersRpcURLs to slice
 	builderURLs := strings.Split(bot.config.BuildersRpcURLs, ",")
 
+	// Use wait group to wait for all goroutines to complete
+	var wg sync.WaitGroup
+	var mu sync.Mutex // Mutex to protect shared slices
+	responses := make([]string, 0)
+	errs := make([]error, 0)
+
+	// Send bundle to each builder
 	for _, url := range builderURLs {
-		bot.logger.Debug("Submitting bundle to %s", url)
-
-		// 发送请求
-		resp, err := http.Post(
-			url,
-			"application/json",
-			bytes.NewBuffer(jsonData),
-		)
-		if err != nil {
-			errors = append(errors, fmt.Errorf("failed to send bundle to %s: %v", url, err))
-			continue
-		}
-		defer resp.Body.Close()
-
-		// 读取响应
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			errors = append(errors, fmt.Errorf("failed to read response from %s: %v", url, err))
+		if url = strings.TrimSpace(url); url == "" {
 			continue
 		}
 
-		// 解析响应
-		var response JsonRpcResponse
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			errors = append(errors, fmt.Errorf("failed to parse response from %s: %v", url, err))
-			continue
-		}
+		wg.Add(1)
+		go func(builderURL string) {
+			defer wg.Done()
 
-		// 检查错误
-		if response.Error != nil {
-			errors = append(errors, fmt.Errorf("relay error from %s: %v", url, response.Error))
-			continue
-		}
+			bot.logger.Debug("Submitting bundle to %s", builderURL)
 
-		// 获取bundle hash
-		bundleHash, ok := response.Result.(string)
-		if !ok {
-			errors = append(errors, fmt.Errorf("invalid response format from %s", url))
-			continue
-		}
+			// Send request to this builder URL
+			resp, err := http.Post(
+				builderURL,
+				"application/json",
+				bytes.NewBuffer(jsonData),
+			)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to send bundle to %s: %v", builderURL, err))
+				mu.Unlock()
+				return
+			}
+			defer resp.Body.Close()
 
-		responses = append(responses, bundleHash)
-		bot.logger.Info("Bundle submitted successfully to %s, response: %s", url, string(body))
+			// Read response
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to read response from %s: %v", builderURL, err))
+				mu.Unlock()
+				return
+			}
+
+			// Parse response
+			var response JsonRpcResponse
+			err = json.Unmarshal(body, &response)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to parse response from %s: %v", builderURL, err))
+				mu.Unlock()
+				return
+			}
+
+			// Check for errors
+			if response.Error != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("relay error from %s: %v", builderURL, response.Error))
+				mu.Unlock()
+				return
+			}
+
+			// Get bundle hash
+			bundleHash, ok := response.Result.(string)
+			if !ok {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("invalid response format from %s", builderURL))
+				mu.Unlock()
+				return
+			}
+
+			mu.Lock()
+			responses = append(responses, bundleHash)
+			mu.Unlock()
+			bot.logger.Info("Bundle submitted successfully to %s, response: %s", builderURL, string(body))
+		}(url)
 	}
 
-	// 如果所有请求都失败，返回错误
+	// Wait for all requests to complete
+	wg.Wait()
+
+	// If all requests failed, return error
 	if len(responses) == 0 {
-		return "", fmt.Errorf("all bundle submissions failed: %v", errors)
+		return "", fmt.Errorf("all bundle submissions failed: %v", errs)
 	}
 
-	// 返回第一个成功的响应
+	// Return first successful response
 	return responses[0], nil
 }
 
