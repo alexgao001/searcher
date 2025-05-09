@@ -91,6 +91,8 @@ type Config struct {
 	WaitForApprovalConfirmations uint64
 	MonitorTokenAddresses        map[common.Address]bool
 	SkipApprovalCheck            bool
+	MaxGasTip                    *big.Int
+	GasTipMultiplier             int64
 }
 
 // SwapInfo contains decoded swap details
@@ -204,6 +206,7 @@ type MEVBot struct {
 
 	nonce    *atomic.Int64
 	gasPrice *atomic.Int64
+	gasTip   *atomic.Int64
 }
 
 // NewLogger creates a new logger with specified log level
@@ -280,6 +283,13 @@ func NewMEVBot(config Config) (*MEVBot, error) {
 	}
 	gasPrice.Store(chainGasPrice.Int64())
 
+	var gasTip = new(atomic.Int64)
+	chainGasTip, err := client.SuggestGasTipCap(context.Background())
+	if err != nil {
+		return nil, fmt.Errorf("failed to get gas tip: %v", err)
+	}
+	gasTip.Store(chainGasTip.Int64())
+
 	return &MEVBot{
 		config:     config,
 		client:     client,
@@ -291,6 +301,7 @@ func NewMEVBot(config Config) (*MEVBot, error) {
 		seenTxs2:   make(map[string]bool),
 		nonce:      nonce,
 		gasPrice:   gasPrice,
+		gasTip:     gasTip,
 	}, nil
 }
 
@@ -356,7 +367,7 @@ func (bot *MEVBot) startNonceAndGasPriceSync(ctx context.Context) {
 				bot.logger.Warning("Error getting gas price: %v", err)
 				continue
 			}
-			bot.logger.Debug("Current gas price: %s", gasPrice.String())
+			bot.logger.Info("Current gas price: %s", gasPrice.String())
 
 			// Apply gas price multiplier
 			gasPrice = new(big.Int).Mul(gasPrice, big.NewInt(bot.config.GasPriceMultiplier))
@@ -367,6 +378,27 @@ func (bot *MEVBot) startNonceAndGasPriceSync(ctx context.Context) {
 				gasPrice = new(big.Int).Set(bot.config.MaxGasPrice)
 			}
 			bot.gasPrice.Store(gasPrice.Int64())
+
+			bot.logger.Info("Adjusted gas price: %s", gasPrice.String())
+
+			// Update gas tip
+			gasTip, err := bot.client.SuggestGasTipCap(ctx)
+			if err != nil {
+				bot.logger.Warning("Error getting gas tip: %v", err)
+				continue
+			}
+			bot.logger.Info("Current gas tip: %s", gasTip.String())
+
+			// Apply gas tip multiplier
+			gasTip = new(big.Int).Mul(gasTip, big.NewInt(bot.config.GasTipMultiplier))
+			gasTip = new(big.Int).Div(gasTip, big.NewInt(100))
+
+			// Respect max gas tip
+			if gasTip.Cmp(bot.config.MaxGasTip) > 0 {
+				gasTip = new(big.Int).Set(bot.config.MaxGasTip)
+			}
+			bot.gasTip.Store(gasTip.Int64())
+			bot.logger.Info("Adjusted gas tip: %s", gasTip.String())
 		}
 	}
 }
@@ -1240,18 +1272,20 @@ func (bot *MEVBot) createBackrunTransaction(swapInfo *SwapInfo, backrunInput *bi
 		}
 	}
 
-	// Create transaction
-	tx := types.NewTransaction(
-		uint64(bot.nonce.Load()),
-		PancakeRouterV2,
-		value,
-		bot.config.GasLimit,
-		big.NewInt(bot.gasPrice.Load()),
-		callData,
-	)
+	// Create dynamic fee transaction instead of legacy
+	tx := types.NewTx(&types.DynamicFeeTx{
+		ChainID:   big.NewInt(bot.config.ChainID),
+		Nonce:     uint64(bot.nonce.Load()),
+		To:        &PancakeRouterV2,
+		Value:     value,
+		Gas:       bot.config.GasLimit,
+		GasTipCap: big.NewInt(bot.gasTip.Load()),
+		GasFeeCap: big.NewInt(bot.gasPrice.Load()),
+		Data:      callData,
+	})
 
 	// Sign transaction
-	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(big.NewInt(bot.config.ChainID)), bot.privateKey)
+	signedTx, err := types.SignTx(tx, types.NewLondonSigner(big.NewInt(bot.config.ChainID)), bot.privateKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to sign transaction: %v", err)
 	}
@@ -1653,6 +1687,29 @@ func loadConfig() Config {
 	if strings.ToLower(skipCheckApprovalStr) == "true" {
 		skipCheckApproval = true
 	}
+
+	// Parse gas tip settings
+	maxGasTipStr := os.Getenv("MAX_GAS_TIP")
+	maxGasTip := big.NewInt(2000000000) // Default to 2 Gwei
+	if maxGasTipStr != "" {
+		var success bool
+		maxGasTip, success = new(big.Int).SetString(maxGasTipStr, 10)
+		if !success {
+			log.Printf("Invalid MAX_GAS_TIP: %s, using default", maxGasTipStr)
+		}
+	}
+
+	gasTipMultiplierStr := os.Getenv("GAS_TIP_MULTIPLIER")
+	gasTipMultiplier := int64(120) // Default to 1.2x
+	if gasTipMultiplierStr != "" {
+		gasTipMultiplier64, ok := new(big.Float).SetString(gasTipMultiplierStr)
+		if ok {
+			gasTipMultiplier, _ = gasTipMultiplier64.Mul(gasTipMultiplier64, big.NewFloat(100)).Int64()
+		} else {
+			log.Printf("Invalid GAS_TIP_MULTIPLIER: %s, using default", gasTipMultiplierStr)
+		}
+	}
+
 	return Config{
 		BlockRazorRpcURL:             blockRazorRpcURL,
 		NodeURL:                      os.Getenv("NODE_URL"),
@@ -1671,6 +1728,8 @@ func loadConfig() Config {
 		WaitForApprovalConfirmations: waitForApproval,
 		MonitorTokenAddresses:        monitorTokenAddresses,
 		SkipApprovalCheck:            skipCheckApproval,
+		MaxGasTip:                    maxGasTip,
+		GasTipMultiplier:             gasTipMultiplier,
 	}
 }
 
