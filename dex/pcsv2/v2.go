@@ -74,7 +74,8 @@ var (
 
 // Config holds all configuration parameters
 type Config struct {
-	BlockRazorRpcURL             string
+	BuildersRpcURLs string
+
 	NodeURL                      string
 	WSURL                        string
 	PrivateKey                   string
@@ -367,7 +368,6 @@ func (bot *MEVBot) startNonceAndGasPriceSync(ctx context.Context) {
 				bot.logger.Warning("Error getting gas price: %v", err)
 				continue
 			}
-			bot.logger.Info("Current gas price: %s", gasPrice.String())
 
 			// Apply gas price multiplier
 			gasPrice = new(big.Int).Mul(gasPrice, big.NewInt(bot.config.GasPriceMultiplier))
@@ -379,15 +379,12 @@ func (bot *MEVBot) startNonceAndGasPriceSync(ctx context.Context) {
 			}
 			bot.gasPrice.Store(gasPrice.Int64())
 
-			bot.logger.Info("Adjusted gas price: %s", gasPrice.String())
-
 			// Update gas tip
 			gasTip, err := bot.client.SuggestGasTipCap(ctx)
 			if err != nil {
 				bot.logger.Warning("Error getting gas tip: %v", err)
 				continue
 			}
-			bot.logger.Info("Current gas tip: %s", gasTip.String())
 
 			// Apply gas tip multiplier
 			gasTip = new(big.Int).Mul(gasTip, big.NewInt(bot.config.GasTipMultiplier))
@@ -398,7 +395,6 @@ func (bot *MEVBot) startNonceAndGasPriceSync(ctx context.Context) {
 				gasTip = new(big.Int).Set(bot.config.MaxGasTip)
 			}
 			bot.gasTip.Store(gasTip.Int64())
-			bot.logger.Info("Adjusted gas tip: %s", gasTip.String())
 		}
 	}
 }
@@ -1382,9 +1378,14 @@ func (bot *MEVBot) getRawTransaction(tx *types.Transaction) (string, error) {
 	return hexutil.Encode(data), nil
 }
 
-// submitBundle submits a bundle to the relay
+// submitBundle submits a bundle to multiple relays
 func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, error) {
-	// Create JSON-RPC request
+	if skipSend {
+		bot.logger.Debug("Skipping sending bundle to relay")
+		return "", nil
+	}
+
+	// 创建JSON-RPC请求
 	request := JsonRpcRequest{
 		JsonRpc: "2.0",
 		Method:  "eth_sendBundle",
@@ -1392,58 +1393,73 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, er
 		ID:      1,
 	}
 
-	// Convert to JSON
+	// 转换为JSON
 	jsonData, err := json.Marshal(request)
 	if err != nil {
 		return "", fmt.Errorf("failed to marshal JSON-RPC request: %v", err)
 	}
 
-	if skipSend {
-		bot.logger.Debug("Skipping sending bundle to relay")
-		return "", nil
+	// 用于存储所有响应
+	var responses []string
+	var errors []error
+
+	// 向所有builder发送请求
+	builderURLs := strings.Split(bot.config.BuildersRpcURLs, ",")
+
+	for _, url := range builderURLs {
+		bot.logger.Debug("Submitting bundle to %s", url)
+
+		// 发送请求
+		resp, err := http.Post(
+			url,
+			"application/json",
+			bytes.NewBuffer(jsonData),
+		)
+		if err != nil {
+			errors = append(errors, fmt.Errorf("failed to send bundle to %s: %v", url, err))
+			continue
+		}
+		defer resp.Body.Close()
+
+		// 读取响应
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			errors = append(errors, fmt.Errorf("failed to read response from %s: %v", url, err))
+			continue
+		}
+
+		// 解析响应
+		var response JsonRpcResponse
+		err = json.Unmarshal(body, &response)
+		if err != nil {
+			errors = append(errors, fmt.Errorf("failed to parse response from %s: %v", url, err))
+			continue
+		}
+
+		// 检查错误
+		if response.Error != nil {
+			errors = append(errors, fmt.Errorf("relay error from %s: %v", url, response.Error))
+			continue
+		}
+
+		// 获取bundle hash
+		bundleHash, ok := response.Result.(string)
+		if !ok {
+			errors = append(errors, fmt.Errorf("invalid response format from %s", url))
+			continue
+		}
+
+		responses = append(responses, bundleHash)
+		bot.logger.Info("Bundle submitted successfully to %s, response: %s", url, string(body))
 	}
 
-	// Log request
-	bot.logger.Debug("Submitting bundle to %s", bot.config.BlockRazorRpcURL)
-
-	// Send request
-	resp, err := http.Post(
-		bot.config.BlockRazorRpcURL,
-		"application/json",
-		bytes.NewBuffer(jsonData),
-	)
-	if err != nil {
-		return "", fmt.Errorf("failed to send bundle: %v", err)
-	}
-	defer resp.Body.Close()
-
-	// Read response
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("failed to read response: %v", err)
+	// 如果所有请求都失败，返回错误
+	if len(responses) == 0 {
+		return "", fmt.Errorf("all bundle submissions failed: %v", errors)
 	}
 
-	// Parse response
-	var response JsonRpcResponse
-	err = json.Unmarshal(body, &response)
-	if err != nil {
-		return "", fmt.Errorf("failed to parse response: %v", err)
-	}
-
-	// Check for errors
-	if response.Error != nil {
-		return "", fmt.Errorf("relay error: %v", response.Error)
-	}
-
-	bot.logger.Info("Bundle submitted successfully, response: %s", string(body))
-
-	// Get bundle hash
-	bundleHash, ok := response.Result.(string)
-	if !ok {
-		return "", fmt.Errorf("invalid response format")
-	}
-
-	return bundleHash, nil
+	// 返回第一个成功的响应
+	return responses[0], nil
 }
 
 // waitForTransaction waits for a transaction to be confirmed
@@ -1592,10 +1608,7 @@ func loadConfig() Config {
 	}
 
 	// Use the correct RPC URL for BlockRazor
-	blockRazorRpcURL := os.Getenv("BLOCKRAZOR_RPC_URL")
-	if blockRazorRpcURL == "" {
-		blockRazorRpcURL = "https://bsc.blockrazor.xyz"
-	}
+	buildersRpcURLs := os.Getenv("BUILDERS_RPC_URLS")
 
 	// Parse polling interval
 	pollIntervalStr := os.Getenv("POLL_INTERVAL")
@@ -1711,7 +1724,7 @@ func loadConfig() Config {
 	}
 
 	return Config{
-		BlockRazorRpcURL:             blockRazorRpcURL,
+		BuildersRpcURLs:              buildersRpcURLs,
 		NodeURL:                      os.Getenv("NODE_URL"),
 		WSURL:                        os.Getenv("WS_URL"),
 		PrivateKey:                   os.Getenv("PRIVATE_KEY"),
