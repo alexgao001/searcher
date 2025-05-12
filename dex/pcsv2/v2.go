@@ -94,6 +94,7 @@ type Config struct {
 	SkipApprovalCheck            bool
 	MaxGasTip                    *big.Int
 	GasTipMultiplier             int64
+	BuildersEoaAddress           []common.Address
 }
 
 // SwapInfo contains decoded swap details
@@ -746,7 +747,7 @@ func (bot *MEVBot) processPendingTx(tx *types.Transaction) {
 	if swapInfo.TokenIn == common.HexToAddress("0x55d398326f99059ff775485246999027b3197955") {
 		backrunInput = big.NewInt(10000000000000000) // For USDT
 	} else {
-		backrunInput = big.NewInt(1000000000000000000) // 0.01 BNB
+		backrunInput = big.NewInt(500000000000000000) // 0.005 BNB
 	}
 
 	bot.logger.Info("Found profitable backrun opportunity for tx %s. Expected profit: %s BNB at %s",
@@ -1100,7 +1101,7 @@ func (bot *MEVBot) createAndSubmitBackrunBundle(swapInfo *SwapInfo, backrunInput
 		swapInfo.TargetTx.Hash().Hex(), time.Now().Format("2006-01-02 15:04:05.000"))
 
 	// Submit bundle
-	bundleHash, err := bot.submitBundle(bundle, false)
+	bundleHash, err := bot.submitBundle(bundle, false, backrunTx.Nonce()+1)
 	if err != nil {
 		return fmt.Errorf("failed to submit bundle: %v", err)
 	}
@@ -1379,7 +1380,7 @@ func (bot *MEVBot) getRawTransaction(tx *types.Transaction) (string, error) {
 }
 
 // submitBundle submits a bundle to multiple relays
-func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, error) {
+func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint64) (string, error) {
 	if skipSend {
 		bot.logger.Debug("Skipping sending bundle to relay")
 		return "", nil
@@ -1409,16 +1410,33 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, er
 	errs := make([]error, 0)
 
 	// Send bundle to each builder
-	for _, url := range builderURLs {
+	for i, url := range builderURLs {
 		if url = strings.TrimSpace(url); url == "" {
 			continue
 		}
 
 		wg.Add(1)
-		go func(builderURL string) {
+		go func(index int, builderURL string) {
 			defer wg.Done()
+			copiedBundle := bundle
+			// add a transfer tx to the copied bundle
+			transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(20000000000000)) //0.00002
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to create transfer transaction: %v", err))
+				mu.Unlock()
+				return
+			}
+			transferTxBz, err := bot.getRawTransaction(transferTx)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to get raw transaction: %v", err))
+				mu.Unlock()
+				return
+			}
+			copiedBundle.Txs = append(copiedBundle.Txs, transferTxBz)
 
-			bot.logger.Debug("Submitting bundle to %s", builderURL)
+			bot.logger.Info("bundle details: %s", copiedBundle)
 
 			// Send request to this builder URL
 			resp, err := http.Post(
@@ -1474,7 +1492,7 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, er
 			responses = append(responses, bundleHash)
 			mu.Unlock()
 			bot.logger.Info("Bundle submitted successfully to %s, response: %s", builderURL, string(body))
-		}(url)
+		}(i, url)
 	}
 
 	// Wait for all requests to complete
@@ -1487,6 +1505,27 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool) (string, er
 
 	// Return first successful response
 	return responses[0], nil
+}
+
+// createTransferTx creates a transfer transaction to the builder EOA
+func (bot *MEVBot) createTransferTx(nonce uint64, to common.Address, amount *big.Int) (*types.Transaction, error) {
+	tx := types.NewTransaction(
+		nonce,
+		to,
+		amount,
+		bot.config.GasLimit,
+		big.NewInt(bot.gasPrice.Load()),
+		nil,
+	)
+	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(big.NewInt(bot.config.ChainID)), bot.privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to sign transfer transaction: %v", err)
+	}
+	bot.logger.Info("Created transfer transaction to builder EOA: %s, amount: %s BNB",
+		to.Hex(),
+		formatEthValue(amount))
+
+	return signedTx, nil
 }
 
 // waitForTransaction waits for a transaction to be confirmed
@@ -1646,6 +1685,15 @@ func loadConfig() Config {
 		}
 	}
 
+	buildersEoa := os.Getenv("BUILDERS_EOA")
+	if buildersEoa == "" {
+		log.Fatal("BUILDERS_EOA environment variable is required")
+	}
+	builders := make([]common.Address, 0)
+	for _, addr := range strings.Split(buildersEoa, ",") {
+		builders = append(builders, common.HexToAddress(addr))
+	}
+
 	// Parse log level
 	logLevelStr := os.Getenv("LOG_LEVEL")
 	logLevel := INFO // Default to INFO
@@ -1770,6 +1818,7 @@ func loadConfig() Config {
 		SkipApprovalCheck:            skipCheckApproval,
 		MaxGasTip:                    maxGasTip,
 		GasTipMultiplier:             gasTipMultiplier,
+		BuildersEoaAddress:           builders,
 	}
 }
 
