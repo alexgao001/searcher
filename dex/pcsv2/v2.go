@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -90,11 +91,16 @@ type Config struct {
 	GasLimit                     uint64
 	SimulateTransactions         bool
 	WaitForApprovalConfirmations uint64
-	MonitorTokenAddresses        map[common.Address]bool
+	MonitorPairs                 []TokenPair
 	SkipApprovalCheck            bool
 	MaxGasTip                    *big.Int
 	GasTipMultiplier             int64
 	BuildersEoaAddress           []common.Address
+}
+
+type TokenPair struct {
+	Token1 common.Address
+	Token2 common.Address
 }
 
 // SwapInfo contains decoded swap details
@@ -723,9 +729,17 @@ func (bot *MEVBot) processPendingTx(tx *types.Transaction) {
 		return
 	}
 
-	_, ok1 := bot.config.MonitorTokenAddresses[swapInfo.TokenIn]
-	_, ok2 := bot.config.MonitorTokenAddresses[swapInfo.TokenOut]
-	if !ok1 || !ok2 {
+	// Check if this pair is being monitored
+	pairFound := false
+	for _, pair := range bot.config.MonitorPairs {
+		if (swapInfo.TokenIn == pair.Token1 && swapInfo.TokenOut == pair.Token2) ||
+			(swapInfo.TokenIn == pair.Token2 && swapInfo.TokenOut == pair.Token1) {
+			pairFound = true
+			break
+		}
+	}
+
+	if !pairFound {
 		return
 	}
 
@@ -1554,8 +1568,7 @@ func (bot *MEVBot) waitForTransaction(ctx context.Context, txHash common.Hash, c
 		case <-ticker.C:
 			receipt, err := bot.client.TransactionReceipt(ctx, txHash)
 			if err != nil {
-				if err == ethereum.NotFound {
-					// Transaction not yet mined, continue waiting
+				if errors.Is(err, ethereum.NotFound) {
 					continue
 				}
 				return nil, err
@@ -1769,18 +1782,38 @@ func loadConfig() Config {
 		}
 	}
 
-	// Parse monitor token addresses
-	monitorTokenAddressesStr := os.Getenv("MONITOR_TOKEN_ADDRESSES")
-	monitorTokenAddresses := make(map[common.Address]bool)
-	if monitorTokenAddressesStr != "" {
-		monitorTokenAddressStrs := strings.Split(monitorTokenAddressesStr, ",")
-		for _, addrStr := range monitorTokenAddressStrs {
-			addrStr = strings.TrimSpace(addrStr)
-			if common.IsHexAddress(addrStr) {
-				monitorTokenAddresses[common.HexToAddress(addrStr)] = true
-			} else {
-				log.Printf("Invalid monitor token address: %s", addrStr)
+	monitorPairsStr := os.Getenv("MONITOR_PAIRS")
+	var paris []TokenPair
+
+	if monitorPairsStr != "" {
+		monitorPairStrs := strings.Split(monitorPairsStr, ",")
+		for _, pairStr := range monitorPairStrs {
+			pairStr = strings.TrimSpace(pairStr)
+			if pairStr == "" {
+				continue
 			}
+
+			tokenPair := strings.Split(pairStr, ":")
+			if len(tokenPair) != 2 {
+				log.Printf("Invalid pair format: %s, expected TOKEN1:TOKEN2", pairStr)
+				continue
+			}
+
+			token1Str := strings.TrimSpace(tokenPair[0])
+			token2Str := strings.TrimSpace(tokenPair[1])
+
+			if !common.IsHexAddress(token1Str) || !common.IsHexAddress(token2Str) {
+				log.Printf("Invalid address in pair: %s", pairStr)
+				continue
+			}
+
+			token1 := common.HexToAddress(token1Str)
+			token2 := common.HexToAddress(token2Str)
+
+			paris = append(paris, TokenPair{
+				Token1: token1,
+				Token2: token2,
+			})
 		}
 	}
 
@@ -1828,7 +1861,7 @@ func loadConfig() Config {
 		GasLimit:                     gasLimit,
 		SimulateTransactions:         simulateTransactions,
 		WaitForApprovalConfirmations: waitForApproval,
-		MonitorTokenAddresses:        monitorTokenAddresses,
+		MonitorPairs:                 paris,
 		SkipApprovalCheck:            skipCheckApproval,
 		MaxGasTip:                    maxGasTip,
 		GasTipMultiplier:             gasTipMultiplier,
