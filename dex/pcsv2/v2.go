@@ -1407,7 +1407,7 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 			copiedBundle := bundle
 
 			// add a transfer tx to the copied bundle
-			transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(20000000000000)) //0.00002
+			transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(200000000000000)) //0.00002  $0.1
 			if err != nil {
 				mu.Lock()
 				errs = append(errs, fmt.Errorf("failed to create transfer transaction: %v", err))
