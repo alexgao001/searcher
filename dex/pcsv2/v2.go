@@ -1386,20 +1386,6 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 		return "", nil
 	}
 
-	// 创建JSON-RPC请求
-	request := JsonRpcRequest{
-		JsonRpc: "2.0",
-		Method:  "eth_sendBundle",
-		Params:  []interface{}{bundle},
-		ID:      1,
-	}
-
-	// 转换为JSON
-	jsonData, err := json.Marshal(request)
-	if err != nil {
-		return "", fmt.Errorf("failed to marshal JSON-RPC request: %v", err)
-	}
-
 	// Convert comma-separated BuildersRpcURLs to slice
 	builderURLs := strings.Split(bot.config.BuildersRpcURLs, ",")
 
@@ -1419,6 +1405,7 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 		go func(index int, builderURL string) {
 			defer wg.Done()
 			copiedBundle := bundle
+
 			// add a transfer tx to the copied bundle
 			transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(20000000000000)) //0.00002
 			if err != nil {
@@ -1436,7 +1423,22 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 			}
 			copiedBundle.Txs = append(copiedBundle.Txs, transferTxBz)
 
-			bot.logger.Info("bundle details: %s", copiedBundle)
+			// 创建JSON-RPC请求
+			request := JsonRpcRequest{
+				JsonRpc: "2.0",
+				Method:  "eth_sendBundle",
+				Params:  []interface{}{copiedBundle},
+				ID:      1,
+			}
+
+			// 转换为JSON
+			jsonData, err := json.Marshal(request)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to marshal JSON-RPC request: %v", err))
+				mu.Unlock()
+				return
+			}
 
 			// Send request to this builder URL
 			resp, err := http.Post(
@@ -1521,6 +1523,18 @@ func (bot *MEVBot) createTransferTx(nonce uint64, to common.Address, amount *big
 	if err != nil {
 		return nil, fmt.Errorf("failed to sign transfer transaction: %v", err)
 	}
+
+	// Simulate the transaction if simulation is enabled
+	if bot.config.SimulateTransactions {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		if err = bot.simulateTransaction(ctx, bot.address, signedTx); err != nil {
+			return nil, fmt.Errorf("transfer transaction simulation failed: %v", err)
+		}
+		bot.logger.Info("Transfer transaction simulation successful")
+	}
+
 	bot.logger.Info("Created transfer transaction to builder EOA: %s, amount: %s BNB",
 		to.Hex(),
 		formatEthValue(amount))
