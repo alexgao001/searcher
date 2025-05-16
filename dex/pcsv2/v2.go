@@ -1175,7 +1175,7 @@ func (bot *MEVBot) createAndSubmitBackrunBundle(swapInfo *SwapInfo, backrunInput
 	bundle := BackrunBundle{
 		Txs:               []string{origTxRaw, backrunTxRaw},
 		RevertingTxHashes: []string{},
-		MaxBlockNumber:    uint64(bot.blockNum.Load() + 2), // Valid for 2 blocks
+		MaxBlockNumber:    uint64(bot.blockNum.Load() + 10), // Valid for 2 blocks
 		Hint: &Hint{
 			Hash:             true,
 			From:             false,

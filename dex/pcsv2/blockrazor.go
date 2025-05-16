@@ -444,7 +444,7 @@ func (bot *MEVBot) createAndSubmitBackrunBundleForBlockRazor(swapInfo *SwapInfo,
 		Hash:              bundle.Hash,
 		Txs:               []string{backrunTxRaw},
 		RevertingTxHashes: []string{},
-		MaxBlockNumber:    uint64(bot.blockNum.Load() + 2),
+		MaxBlockNumber:    uint64(bot.blockNum.Load() + 10),
 		Hint: &Hint{
 			Hash:             true,
 			From:             false,
