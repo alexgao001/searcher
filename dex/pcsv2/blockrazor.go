@@ -430,7 +430,7 @@ func (bot *MEVBot) createAndSubmitBackrunBundleForBlockRazor(swapInfo *SwapInfo,
 	if bot.config.SimulateTransactions {
 		err = bot.simulateTransaction(ctx, bot.address, backrunTx)
 		if err != nil {
-			return fmt.Errorf("transaction simulation failed: %v", err)
+			return fmt.Errorf("transaction simulation failed: %v, calldata %s", err, hex.EncodeToString(backrunTx.Data()))
 		}
 		bot.logger.Info("Backrun transaction simulation successful")
 	}
