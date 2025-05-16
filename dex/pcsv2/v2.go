@@ -1441,7 +1441,6 @@ func (bot *MEVBot) createBlockRazorBackrunTransaction(swapInfo *SwapInfo, backru
 		backrunMethod = "executeBackrunETHToToken"
 		backrunParams = []interface{}{
 			PancakeRouterV2,
-			backrunInput,
 			minOutput,
 			reversedPath,
 			deadline,
