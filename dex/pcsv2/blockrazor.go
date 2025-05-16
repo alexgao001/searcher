@@ -110,6 +110,8 @@ func (bot *MEVBot) connectBlockRazor(ctx context.Context, endpoint string) error
 						continue
 					}
 
+					bot.logger.Info("found a pancake swap transaction: %s", tx.Hash)
+
 					calldataBz, err := hex.DecodeString(strings.TrimPrefix(tx.Calldata, "0x"))
 					if err != nil {
 						bot.logger.Error("Failed to decode calldata: %v, tx_hash: %s", err, tx.Hash)
@@ -366,8 +368,7 @@ func (bot *MEVBot) handleSwap(swapInfo *SwapInfo, tx Tx, bundle BlockRazorBundle
 	//swapInfo.TokenOut = common.HexToAddress("0x55d398326f99059ff775485246999027b3197955") // USDT
 	//swapInfo.Path[0] = common.HexToAddress("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")
 	//swapInfo.Path[1] = common.HexToAddress("0x55d398326f99059ff775485246999027b3197955")
-	//
-	backrunInput := big.NewInt(10000000000000000) // 0.01 UST
+	backrunInput := big.NewInt(10000000000000000) // 0.01 USDT
 
 	// todo below part is calculating the optimal backrun amount, and the profit
 	//backrunInput, profit, err := bot.findOptimalBackrunAmount(swapInfo)
@@ -377,6 +378,12 @@ func (bot *MEVBot) handleSwap(swapInfo *SwapInfo, tx Tx, bundle BlockRazorBundle
 	//}
 	//bot.logger.Info("Found profitable backrun opportunity for tx %s. backRun input %s, Expected profit: %s BNB at %s",
 	//	tx.Hash, backrunInput.String(), formatEthValue(profit), time.Now().Format("2006-01-02 15:04:05.000"))
+
+	if swapInfo.TokenIn == common.HexToAddress("0x55d398326f99059ff775485246999027b3197955") { // USDT address
+		backrunInput = big.NewInt(1000000000000000) // 0.001 BNB
+	} else {
+		backrunInput = big.NewInt(50000000000000000) // 0.05 USDT
+	}
 
 	err := bot.createAndSubmitBackrunBundleForBlockRazor(swapInfo, tx, bundle, backrunInput, profit)
 	if err != nil {
