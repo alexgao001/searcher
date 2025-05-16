@@ -109,6 +109,18 @@ func (bot *MEVBot) connectBlockRazor(ctx context.Context, endpoint string) error
 					continue
 				}
 				for _, tx := range bundle.Transactions {
+					bot.seenTxsMu.RLock()
+					if bot.seenTxs[tx.Hash] {
+						bot.seenTxsMu.RUnlock()
+						bot.logger.Debug("Transaction already seen: %s", tx.Hash)
+						continue
+					}
+					bot.seenTxsMu.RUnlock()
+
+					bot.seenTxsMu.Lock()
+					bot.seenTxs[tx.Hash] = true
+					bot.seenTxsMu.Unlock()
+
 					if !strings.EqualFold(tx.To, PancakeRouterV2.String()) {
 						continue
 					}

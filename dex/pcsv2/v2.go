@@ -424,7 +424,7 @@ type MEVBot struct {
 	blockNum   *atomic.Int64
 
 	seenTxs   map[string]bool
-	seenTxsMu sync.Mutex
+	seenTxsMu sync.RWMutex
 
 	nonce    *atomic.Int64
 	gasPrice *atomic.Int64
@@ -711,9 +711,9 @@ func (bot *MEVBot) monitorTxPool(ctx context.Context) {
 					return
 				}
 				txHashStr := hash.Hex()
-				bot.seenTxsMu.Lock()
+				bot.seenTxsMu.RLock()
 				if bot.seenTxs[txHashStr] {
-					bot.seenTxsMu.Unlock()
+					bot.seenTxsMu.RUnlock()
 					return
 				}
 				bot.seenTxs[txHashStr] = true
