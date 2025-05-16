@@ -330,6 +330,7 @@ type SwapInfo struct {
 	Path         []common.Address
 	Deadline     *big.Int
 	Recipient    common.Address
+	TxHash       string
 }
 
 // BackrunBundle represents the bundle to be submitted to BlockRazor
@@ -872,6 +873,7 @@ func (bot *MEVBot) decodePancakeSwap(tx *types.Transaction) (*SwapInfo, error) {
 		DEX:      "PancakeSwap",
 		Function: methodName,
 		TargetTx: tx,
+		TxHash:   tx.Hash().Hex(),
 	}
 
 	// Parse arguments based on function type
@@ -2262,7 +2264,7 @@ func (bot *MEVBot) findOptimalBackrunAmount(swapInfo *SwapInfo) (*big.Int, *big.
 	// Perform binary search to find optimal input amount
 	bot.logger.Info("Starting binary search for optimal input amount")
 	//percentages := []int{10, 20, 30, 40, 50, 60, 70, 80, 90}
-	percentages := []int{20}
+	percentages := []int{10}
 	var bestInput, bestProfit *big.Int
 
 	for _, percentage := range percentages {
