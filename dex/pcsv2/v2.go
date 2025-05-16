@@ -641,7 +641,7 @@ func (bot *MEVBot) trackBlockNumber(ctx context.Context) {
 			}
 			bot.blockNum.Store(int64(blockNum))
 			bot.logger.Debug("Current block number: %d", blockNum)
-			time.Sleep(5 * time.Second)
+			time.Sleep(1 * time.Second)
 		}
 	}
 }
