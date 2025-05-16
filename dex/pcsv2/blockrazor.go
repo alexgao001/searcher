@@ -105,6 +105,9 @@ func (bot *MEVBot) connectBlockRazor(ctx context.Context, endpoint string) error
 					bot.logger.Error("Failed to unmarshal BlockRazor bundle: %v", err)
 					continue
 				}
+				if len(bundle.Transactions) > 1 {
+					continue
+				}
 				for _, tx := range bundle.Transactions {
 					if !strings.EqualFold(tx.To, PancakeRouterV2.String()) {
 						continue
