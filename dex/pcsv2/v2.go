@@ -44,6 +44,217 @@ const (
 const (
 	PancakeRouterABI = `[{"inputs":[{"internalType":"address","name":"_factory","type":"address"},{"internalType":"address","name":"_WETH","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"WETH","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"tokenA","type":"address"},{"internalType":"address","name":"tokenB","type":"address"},{"internalType":"uint256","name":"amountADesired","type":"uint256"},{"internalType":"uint256","name":"amountBDesired","type":"uint256"},{"internalType":"uint256","name":"amountAMin","type":"uint256"},{"internalType":"uint256","name":"amountBMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"addLiquidity","outputs":[{"internalType":"uint256","name":"amountA","type":"uint256"},{"internalType":"uint256","name":"amountB","type":"uint256"},{"internalType":"uint256","name":"liquidity","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"amountTokenDesired","type":"uint256"},{"internalType":"uint256","name":"amountTokenMin","type":"uint256"},{"internalType":"uint256","name":"amountETHMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"addLiquidityETH","outputs":[{"internalType":"uint256","name":"amountToken","type":"uint256"},{"internalType":"uint256","name":"amountETH","type":"uint256"},{"internalType":"uint256","name":"liquidity","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"reserveIn","type":"uint256"},{"internalType":"uint256","name":"reserveOut","type":"uint256"}],"name":"getAmountIn","outputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"reserveIn","type":"uint256"},{"internalType":"uint256","name":"reserveOut","type":"uint256"}],"name":"getAmountOut","outputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"}],"name":"getAmountsIn","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"}],"name":"getAmountsOut","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountA","type":"uint256"},{"internalType":"uint256","name":"reserveA","type":"uint256"},{"internalType":"uint256","name":"reserveB","type":"uint256"}],"name":"quote","outputs":[{"internalType":"uint256","name":"amountB","type":"uint256"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"tokenA","type":"address"},{"internalType":"address","name":"tokenB","type":"address"},{"internalType":"uint256","name":"liquidity","type":"uint256"},{"internalType":"uint256","name":"amountAMin","type":"uint256"},{"internalType":"uint256","name":"amountBMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"removeLiquidity","outputs":[{"internalType":"uint256","name":"amountA","type":"uint256"},{"internalType":"uint256","name":"amountB","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"liquidity","type":"uint256"},{"internalType":"uint256","name":"amountTokenMin","type":"uint256"},{"internalType":"uint256","name":"amountETHMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"removeLiquidityETH","outputs":[{"internalType":"uint256","name":"amountToken","type":"uint256"},{"internalType":"uint256","name":"amountETH","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"liquidity","type":"uint256"},{"internalType":"uint256","name":"amountTokenMin","type":"uint256"},{"internalType":"uint256","name":"amountETHMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"removeLiquidityETHSupportingFeeOnTransferTokens","outputs":[{"internalType":"uint256","name":"amountETH","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"liquidity","type":"uint256"},{"internalType":"uint256","name":"amountTokenMin","type":"uint256"},{"internalType":"uint256","name":"amountETHMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"bool","name":"approveMax","type":"bool"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"removeLiquidityETHWithPermit","outputs":[{"internalType":"uint256","name":"amountToken","type":"uint256"},{"internalType":"uint256","name":"amountETH","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"liquidity","type":"uint256"},{"internalType":"uint256","name":"amountTokenMin","type":"uint256"},{"internalType":"uint256","name":"amountETHMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"bool","name":"approveMax","type":"bool"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"removeLiquidityETHWithPermitSupportingFeeOnTransferTokens","outputs":[{"internalType":"uint256","name":"amountETH","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"tokenA","type":"address"},{"internalType":"address","name":"tokenB","type":"address"},{"internalType":"uint256","name":"liquidity","type":"uint256"},{"internalType":"uint256","name":"amountAMin","type":"uint256"},{"internalType":"uint256","name":"amountBMin","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"bool","name":"approveMax","type":"bool"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"removeLiquidityWithPermit","outputs":[{"internalType":"uint256","name":"amountA","type":"uint256"},{"internalType":"uint256","name":"amountB","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapETHForExactTokens","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactETHForTokens","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactETHForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForETH","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForETHSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForTokens","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMin","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapExactTokensForTokensSupportingFeeOnTransferTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"amountInMax","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapTokensForExactETH","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"amountInMax","type":"uint256"},{"internalType":"address[]","name":"path","type":"address[]"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"}],"name":"swapTokensForExactTokens","outputs":[{"internalType":"uint256[]","name":"amounts","type":"uint256[]"}],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}]`
 	ERC20ABI         = `[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]`
+	BackrunABI       = `[
+  {
+    "type": "constructor",
+    "inputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "receive",
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "executeBackrunETHToToken",
+    "inputs": [
+      {
+        "name": "router",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amountOutMin",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "path",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "deadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "proxyBidContract",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "refundAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "refundCfg",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "bidValue",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "executeBackrunTokenToETH",
+    "inputs": [
+      {
+        "name": "router",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "amountOutMin",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "path",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "deadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "proxyBidContract",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "refundAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "refundCfg",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "bidValue",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "executeBackrunTokenToToken",
+    "inputs": [
+      {
+        "name": "router",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "amountOutMin",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "path",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "deadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "proxyBidContract",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "refundAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "refundCfg",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "bidValue",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setOwner",
+    "inputs": [
+      {
+        "name": "newOwner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "withdrawETH",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "withdrawToken",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  }
+]`
 )
 
 // PancakeSwap addresses and method signatures
@@ -77,8 +288,11 @@ var (
 type Config struct {
 	BuildersRpcURLs string
 
-	NodeURL                      string
-	WSURL                        string
+	NodeURL string
+	WSURL   string
+
+	ScutumURL string
+
 	PrivateKey                   string
 	ChainID                      int64
 	MinProfitThreshold           *big.Int
@@ -96,6 +310,7 @@ type Config struct {
 	MaxGasTip                    *big.Int
 	GasTipMultiplier             int64
 	BuildersEoaAddress           []common.Address
+	BackrunContractAddress       common.Address
 }
 
 type TokenPair struct {
@@ -119,6 +334,7 @@ type SwapInfo struct {
 
 // BackrunBundle represents the bundle to be submitted to BlockRazor
 type BackrunBundle struct {
+	Hash              string   `json:"hash"`
 	Txs               []string `json:"txs"`
 	RevertingTxHashes []string `json:"revertingTxHashes"`
 	MaxBlockNumber    uint64   `json:"maxBlockNumber"`
@@ -209,9 +425,6 @@ type MEVBot struct {
 	seenTxs   map[string]bool
 	seenTxsMu sync.Mutex
 
-	seenTxs2   map[string]bool
-	seenTxsMu2 sync.Mutex
-
 	nonce    *atomic.Int64
 	gasPrice *atomic.Int64
 	gasTip   *atomic.Int64
@@ -244,7 +457,7 @@ func (l *Logger) Warning(format string, args ...interface{}) {
 
 func (l *Logger) Error(format string, args ...interface{}) {
 	if l.level <= ERROR {
-		timestamp := time.Now().Format("2006-01-02 15:04:05.000") // 精确到毫秒
+		timestamp := time.Now().Format("2006-01-02 15:04:05.000")
 		log.Printf("[ERROR] [%s] "+format, append([]interface{}{timestamp}, args...)...)
 	}
 }
@@ -306,7 +519,6 @@ func NewMEVBot(config Config) (*MEVBot, error) {
 		logger:     logger,
 		blockNum:   new(atomic.Int64),
 		seenTxs:    make(map[string]bool),
-		seenTxs2:   make(map[string]bool),
 		nonce:      nonce,
 		gasPrice:   gasPrice,
 		gasTip:     gasTip,
@@ -321,7 +533,7 @@ func (bot *MEVBot) Start() error {
 		return fmt.Errorf("failed to get wallet balance: %v", err)
 	}
 	bot.logger.Info("Using wallet address: %s", bot.address.Hex())
-	bot.logger.Info("Wallet balance: %s ETH", formatEthValue(balance))
+	bot.logger.Info("Wallet balance: %s BNB", formatEthValue(balance))
 
 	// Create context for graceful shutdown
 	ctx, cancel := context.WithCancel(context.Background())
@@ -331,10 +543,7 @@ func (bot *MEVBot) Start() error {
 	go bot.trackBlockNumber(ctx)
 
 	// Start tx pool monitoring
-	go bot.monitorTxPool(ctx) // ws
-
-	// http
-	//go bot.monitorTxPool2(ctx)
+	go bot.StartTxMonitor(ctx)
 
 	// Start cleanup routine for seen transactions
 	go bot.cleanupSeenTxs(ctx)
@@ -351,6 +560,17 @@ func (bot *MEVBot) Start() error {
 	time.Sleep(time.Second) // Give goroutines time to exit
 
 	return nil
+}
+
+func (bot *MEVBot) StartTxMonitor(ctx context.Context) {
+	if os.Getenv("ENABLE_SCUTUM") == "true" {
+		err := bot.startBlockRazorSubscription(ctx)
+		if err != nil {
+			return
+		}
+	} else {
+		bot.monitorTxPool(ctx)
+	}
 }
 
 func (bot *MEVBot) startNonceAndGasPriceSync(ctx context.Context) {
@@ -541,164 +761,13 @@ func (bot *MEVBot) monitorTxPool(ctx context.Context) {
 					return
 				}
 
-				bot.logger.Info("(ws)Found potential PancakeSwap transaction: %s from %s at %s",
+				bot.logger.Info("Found potential PancakeSwap transaction: %s from %s at %s",
 					txHashStr, from.Hex(), getTxTime.Format("2006-01-02 15:04:05.000"))
 
 				bot.processPendingTx(tx)
 			}(txHash)
 		}
 	}
-}
-
-func (bot *MEVBot) monitorTxPool2(ctx context.Context) {
-	bot.logger.Info("Started transaction pool monitoring")
-
-	ticker := time.NewTicker(bot.config.PollInterval)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ctx.Done():
-			bot.logger.Info("Transaction pool monitoring stopped due to context cancellation")
-			return
-		case <-ticker.C:
-			bot.pollTxPool()
-		}
-	}
-}
-
-// pollTxPool checks the transaction pool for new transactions
-func (bot *MEVBot) pollTxPool() {
-	// Get pending transactions
-	bot.logger.Info("Starting querying tx pool content")
-	txPool, err := bot.getTxPoolContent()
-	if err != nil {
-		bot.logger.Warning("Error getting tx pool content: %v", err)
-		return
-	}
-	bot.logger.Info("Finished querying tx pool content")
-
-	pendingCount := 0
-	for _, txMap := range txPool.Pending {
-		pendingCount += len(txMap)
-	}
-	bot.logger.Info("Found %d pending transactions", pendingCount)
-
-	for from, nonceTxMap := range txPool.Pending {
-		for _, tx := range nonceTxMap {
-			// Skip if transaction has no 'to' address
-			if tx.To == "" {
-				continue
-			}
-
-			// Skip if transaction is not to a router we're monitoring
-			if !bot.config.RouterAddresses[strings.ToLower(tx.To)] {
-				continue
-			}
-
-			// Check if we've already seen this transaction
-			bot.seenTxsMu2.Lock()
-			if bot.seenTxs2[tx.Hash] {
-				bot.seenTxsMu2.Unlock()
-				continue
-			}
-			bot.seenTxs2[tx.Hash] = true
-			bot.seenTxsMu2.Unlock()
-
-			// Check if it's a PancakeSwap function
-			if len(tx.Input) < 10 {
-				continue
-			}
-			functionSelector := tx.Input[:10]
-			if !isPancakeSwapFunction(functionSelector) {
-				continue
-			}
-
-			bot.logger.Info("(http)Found potential PancakeSwap transaction: %s from %s at %s",
-				tx.Hash, from, time.Now().Format("2006-01-02 15:04:05.000"))
-
-			nonce, _ := new(big.Int).SetString(tx.Nonce, 0)
-			gas, _ := new(big.Int).SetString(tx.Gas, 0)
-			gasPrice, _ := new(big.Int).SetString(tx.GasPrice, 0)
-			value, _ := new(big.Int).SetString(tx.Value, 0)
-			r, _ := new(big.Int).SetString(tx.R, 0)
-			s, _ := new(big.Int).SetString(tx.S, 0)
-			v, _ := new(big.Int).SetString(tx.V, 0)
-
-			toAddr := common.HexToAddress(tx.To)
-			ethTx := types.NewTx(&types.LegacyTx{
-				Nonce:    nonce.Uint64(),
-				To:       &toAddr,
-				Value:    value,
-				Gas:      gas.Uint64(),
-				GasPrice: gasPrice,
-				Data:     common.FromHex(tx.Input),
-				V:        v,
-				R:        r,
-				S:        s,
-			})
-
-			go bot.processPendingTx(ethTx)
-		}
-	}
-}
-
-// getTxPoolContent uses JSON-RPC to get the transaction pool content
-func (bot *MEVBot) getTxPoolContent() (*TxPoolContent, error) {
-	// Create the JSON-RPC request
-	jsonRpcReq := JsonRpcRequest{
-		JsonRpc: "2.0",
-		Method:  "txpool_content",
-		Params:  []interface{}{},
-		ID:      1,
-	}
-
-	// Convert to JSON
-	jsonData, err := json.Marshal(jsonRpcReq)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling JSON-RPC request: %v", err)
-	}
-
-	// Send the request
-	resp, err := http.Post(
-		bot.config.NodeURL,
-		"application/json",
-		bytes.NewBuffer(jsonData),
-	)
-	if err != nil {
-		return nil, fmt.Errorf("error sending JSON-RPC request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	// Read the response
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response: %v", err)
-	}
-
-	// Parse the response
-	var jsonRpcResp JsonRpcResponse
-	if err = json.Unmarshal(body, &jsonRpcResp); err != nil {
-		return nil, fmt.Errorf("error parsing JSON-RPC response: %v", err)
-	}
-
-	// Check for errors
-	if jsonRpcResp.Error != nil {
-		return nil, fmt.Errorf("JSON-RPC error: %v", jsonRpcResp.Error)
-	}
-
-	// Convert the result to TxPoolContent
-	resultBytes, err := json.Marshal(jsonRpcResp.Result)
-	if err != nil {
-		return nil, fmt.Errorf("error marshaling result: %v", err)
-	}
-
-	var txPoolContent TxPoolContent
-	if err = json.Unmarshal(resultBytes, &txPoolContent); err != nil {
-		return nil, fmt.Errorf("error parsing tx pool content: %v", err)
-	}
-
-	return &txPoolContent, nil
 }
 
 // getTransactionByHash gets a transaction by its hash
@@ -792,43 +861,10 @@ func (bot *MEVBot) decodePancakeSwap(tx *types.Transaction) (*SwapInfo, error) {
 	}
 	selector := hexutil.Encode(data[:4])
 
-	// Load PancakeSwap Router ABI
-	routerABI, err := abi.JSON(strings.NewReader(PancakeRouterABI))
+	// Decode the calldata
+	methodName, args, err := bot.decodePancakeSwapCalldata(selector, data)
 	if err != nil {
-		return nil, fmt.Errorf("failed to load PancakeSwap ABI: %v", err)
-	}
-
-	// Find method by selector
-	var methodName string
-	var method abi.Method
-	var found bool
-
-	switch selector {
-	case SwapExactETHForTokens:
-		methodName = "swapExactETHForTokens"
-	case SwapExactTokensForETH:
-		methodName = "swapExactTokensForETH"
-	case SwapExactTokensForTokens:
-		methodName = "swapExactTokensForTokens"
-	case SwapETHForExactTokens:
-		methodName = "swapETHForExactTokens"
-	case SwapTokensForExactETH:
-		methodName = "swapTokensForExactETH"
-	case SwapTokensForExactTokens:
-		methodName = "swapTokensForExactTokens"
-	default:
-		return nil, fmt.Errorf("unsupported function selector: %s", selector)
-	}
-
-	method, found = routerABI.Methods[methodName]
-	if !found {
-		return nil, fmt.Errorf("method %s not found in ABI", methodName)
-	}
-
-	// Try to decode the transaction input
-	args, err := method.Inputs.Unpack(data[4:])
-	if err != nil {
-		return nil, fmt.Errorf("failed to decode function inputs: %v", err)
+		return nil, err
 	}
 
 	// Create SwapInfo struct
@@ -1014,6 +1050,48 @@ func (bot *MEVBot) decodePancakeSwap(tx *types.Transaction) (*SwapInfo, error) {
 	return swapInfo, nil
 }
 
+// decodePancakeSwapCalldata decodes the calldata of a PancakeSwap transaction
+func (bot *MEVBot) decodePancakeSwapCalldata(selector string, data []byte) (string, []interface{}, error) {
+	// Find method by selector
+	var methodName string
+
+	switch selector {
+	case SwapExactETHForTokens:
+		methodName = "swapExactETHForTokens"
+	case SwapExactTokensForETH:
+		methodName = "swapExactTokensForETH"
+	case SwapExactTokensForTokens:
+		methodName = "swapExactTokensForTokens"
+	case SwapETHForExactTokens:
+		methodName = "swapETHForExactTokens"
+	case SwapTokensForExactETH:
+		methodName = "swapTokensForExactETH"
+	case SwapTokensForExactTokens:
+		methodName = "swapTokensForExactTokens"
+	default:
+		return "", nil, fmt.Errorf("unsupported function selector: %s", selector)
+	}
+
+	// Load PancakeSwap Router ABI
+	routerABI, err := abi.JSON(strings.NewReader(PancakeRouterABI))
+	if err != nil {
+		return "", nil, fmt.Errorf("failed to load PancakeSwap ABI: %v", err)
+	}
+
+	method, found := routerABI.Methods[methodName]
+	if !found {
+		return "", nil, fmt.Errorf("method %s not found in ABI", methodName)
+	}
+
+	// Try to decode the transaction input
+	args, err := method.Inputs.Unpack(data[4:])
+	if err != nil {
+		return "", nil, fmt.Errorf("failed to decode function inputs: %v", err)
+	}
+
+	return methodName, args, nil
+}
+
 // createAndSubmitBackrunBundle creates and submits a backrun bundle
 func (bot *MEVBot) createAndSubmitBackrunBundle(swapInfo *SwapInfo, backrunInput *big.Int, expectedProfit *big.Int) error {
 	var err error
@@ -1115,7 +1193,7 @@ func (bot *MEVBot) createAndSubmitBackrunBundle(swapInfo *SwapInfo, backrunInput
 		swapInfo.TargetTx.Hash().Hex(), time.Now().Format("2006-01-02 15:04:05.000"))
 
 	// Submit bundle
-	bundleHash, err := bot.submitBundle(bundle, false, backrunTx.Nonce()+1)
+	bundleHash, err := bot.submitBundle(bundle, false, backrunTx.Nonce()+1, false)
 	if err != nil {
 		return fmt.Errorf("failed to submit bundle: %v", err)
 	}
@@ -1304,6 +1382,127 @@ func (bot *MEVBot) createBackrunTransaction(swapInfo *SwapInfo, backrunInput *bi
 	return signedTx, nil
 }
 
+func (bot *MEVBot) createBlockRazorBackrunTransaction(swapInfo *SwapInfo, backrunInput *big.Int, reversedPath []common.Address, proxyBidContract common.Address, refundAddress common.Address, refundCfg uint64, bidValue *big.Int) (*types.Transaction, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// Load our backrun contract ABI
+	backrunContractABI, err := abi.JSON(strings.NewReader(BackrunABI))
+	if err != nil {
+		return nil, fmt.Errorf("failed to load backrun contract ABI: %v", err)
+	}
+
+	// Determine backrun strategy parameters based on original swap
+	var backrunMethod string
+	var backrunParams []interface{}
+	var txValue = bidValue // Default to bid value only
+
+	// Set deadline 5 minutes in the future
+	deadline := big.NewInt(time.Now().Unix() + 300)
+
+	switch swapInfo.Function {
+	case "swapExactETHForTokens", "swapETHForExactTokens":
+		// Original: ETH -> Token, Backrun: Token -> ETH
+		// We need to set a minimum output amount, use 90% of estimated output
+		estimatedOutput, err := bot.getAmountsOut(ctx, PancakeRouterV2, reversedPath, backrunInput)
+		if err != nil {
+			return nil, fmt.Errorf("failed to estimate output: %v", err)
+		}
+
+		minOutput := new(big.Int).Mul(estimatedOutput[len(estimatedOutput)-1], big.NewInt(90))
+		minOutput = new(big.Int).Div(minOutput, big.NewInt(100))
+
+		backrunMethod = "executeBackrunTokenToETH"
+		backrunParams = []interface{}{
+			PancakeRouterV2,
+			backrunInput,
+			minOutput,
+			reversedPath,
+			deadline,
+			proxyBidContract,
+			refundAddress,
+			big.NewInt(int64(refundCfg)),
+			bidValue,
+		}
+	case "swapExactTokensForETH", "swapTokensForExactETH":
+		// Original: Token -> ETH, Backrun: ETH -> Token
+		// We need to set a minimum output amount, use 90% of estimated output
+		estimatedOutput, err := bot.getAmountsOut(ctx, PancakeRouterV2, reversedPath, backrunInput)
+		if err != nil {
+			return nil, fmt.Errorf("failed to estimate output: %v", err)
+		}
+
+		minOutput := new(big.Int).Mul(estimatedOutput[len(estimatedOutput)-1], big.NewInt(90))
+		minOutput = new(big.Int).Div(minOutput, big.NewInt(100))
+
+		// Add the ETH amount for the swap to the transaction value
+		txValue = new(big.Int).Add(bidValue, backrunInput)
+
+		backrunMethod = "executeBackrunETHToToken"
+		backrunParams = []interface{}{
+			PancakeRouterV2,
+			backrunInput,
+			minOutput,
+			reversedPath,
+			deadline,
+			proxyBidContract,
+			refundAddress,
+			big.NewInt(int64(refundCfg)),
+			bidValue,
+		}
+	case "swapExactTokensForTokens", "swapTokensForExactTokens":
+		// Original: Token A -> Token B, Backrun: Token B -> Token A
+		// We need to set a minimum output amount, use 90% of estimated output
+		estimatedOutput, err := bot.getAmountsOut(ctx, PancakeRouterV2, reversedPath, backrunInput)
+		if err != nil {
+			return nil, fmt.Errorf("failed to estimate output: %v", err)
+		}
+
+		minOutput := new(big.Int).Mul(estimatedOutput[len(estimatedOutput)-1], big.NewInt(90))
+		minOutput = new(big.Int).Div(minOutput, big.NewInt(100))
+
+		backrunMethod = "executeBackrunTokenToToken"
+		backrunParams = []interface{}{
+			PancakeRouterV2,
+			backrunInput,
+			minOutput,
+			reversedPath,
+			deadline,
+			proxyBidContract,
+			refundAddress,
+			big.NewInt(int64(refundCfg)),
+			bidValue,
+		}
+	}
+	bot.logger.Info("backrunMethod: %s, backrunParams: %v", backrunMethod, backrunParams)
+
+	// Pack the call data for our backrun contract
+	callData, err := backrunContractABI.Pack(backrunMethod, backrunParams...)
+	if err != nil {
+		return nil, fmt.Errorf("failed to pack %s call: %v", backrunMethod, err)
+	}
+
+	// Create dynamic fee transaction instead of legacy
+	tx := types.NewTx(&types.DynamicFeeTx{
+		ChainID:   big.NewInt(bot.config.ChainID),
+		Nonce:     uint64(bot.nonce.Load()),
+		To:        &bot.config.BackrunContractAddress, // Address of our backrun contract
+		Value:     txValue,
+		Gas:       bot.config.GasLimit,
+		GasTipCap: big.NewInt(bot.gasTip.Load()),
+		GasFeeCap: big.NewInt(bot.gasPrice.Load()),
+		Data:      callData,
+	})
+
+	// Sign transaction
+	signedTx, err := types.SignTx(tx, types.NewLondonSigner(big.NewInt(bot.config.ChainID)), bot.privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to sign transaction: %v", err)
+	}
+
+	return signedTx, nil
+}
+
 // getAmountsOut calls the router's getAmountsOut function
 func (bot *MEVBot) getAmountsOut(ctx context.Context, routerAddress common.Address, path []common.Address, amountIn *big.Int) ([]*big.Int, error) {
 	// Validate parameters
@@ -1393,8 +1592,117 @@ func (bot *MEVBot) getRawTransaction(tx *types.Transaction) (string, error) {
 	return hexutil.Encode(data), nil
 }
 
+// callBundle simulate a bundle
+func (bot *MEVBot) callBundle(bundle BackrunBundle, nonce uint64, backrunBundle bool) error {
+	builderURLs := strings.Split(bot.config.BuildersRpcURLs, ",")
+
+	// Use wait group to wait for all goroutines to complete
+	var wg sync.WaitGroup
+	var mu sync.Mutex // Mutex to protect shared slices
+	errs := make([]error, 0)
+
+	// Send bundle to each builder
+	for i, url := range builderURLs {
+		if url = strings.TrimSpace(url); url == "" {
+			continue
+		}
+
+		wg.Add(1)
+		go func(index int, builderURL string) {
+			defer wg.Done()
+			copiedBundle := bundle
+			var request JsonRpcRequest
+			if !backrunBundle {
+				// add a transfer tx to the copied bundle
+				transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(200000000000000)) //0.00002  $0.1
+				if err != nil {
+					mu.Lock()
+					errs = append(errs, fmt.Errorf("failed to create transfer transaction: %v", err))
+					mu.Unlock()
+					return
+				}
+				transferTxBz, err := bot.getRawTransaction(transferTx)
+				if err != nil {
+					mu.Lock()
+					errs = append(errs, fmt.Errorf("failed to get raw transaction: %v", err))
+					mu.Unlock()
+					return
+				}
+				copiedBundle.Txs = append(copiedBundle.Txs, transferTxBz)
+
+			}
+			request = JsonRpcRequest{
+				JsonRpc: "2.0",
+				Method:  "eth_callBundle",
+				Params:  []interface{}{copiedBundle},
+				ID:      1,
+			}
+
+			jsonData, err := json.Marshal(request)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to marshal JSON-RPC request: %v", err))
+				mu.Unlock()
+				return
+			}
+
+			// Send request to this builder URL
+			resp, err := http.Post(
+				builderURL,
+				"application/json",
+				bytes.NewBuffer(jsonData),
+			)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to call bundle to %s: %v", builderURL, err))
+				mu.Unlock()
+				return
+			}
+			defer resp.Body.Close()
+
+			// Read response
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to read response from %s: %v, body: %s", builderURL, err, string(body)))
+				mu.Unlock()
+				return
+			}
+
+			// Parse response
+			var response JsonRpcResponse
+			err = json.Unmarshal(body, &response)
+			if err != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("failed to parse response from %s: %v, body: %s", builderURL, err, string(body)))
+				mu.Unlock()
+				return
+			}
+
+			// Check for errors
+			if response.Error != nil {
+				mu.Lock()
+				errs = append(errs, fmt.Errorf("relay error from %s: %v", builderURL, response.Error))
+				mu.Unlock()
+				return
+			}
+
+			bot.logger.Info("Bundle called successfully to %s, response: %s", builderURL, string(body))
+		}(i, url)
+	}
+
+	// Wait for all requests to complete
+	wg.Wait()
+
+	if len(errs) > 0 {
+		return fmt.Errorf("all bundle calls failed: %v", errs)
+	}
+
+	return nil
+}
+
 // submitBundle submits a bundle to multiple relays
-func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint64) (string, error) {
+func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint64, backrunBundle bool) (string, error) {
 	if skipSend {
 		bot.logger.Debug("Skipping sending bundle to relay")
 		return "", nil
@@ -1419,33 +1727,39 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 		go func(index int, builderURL string) {
 			defer wg.Done()
 			copiedBundle := bundle
-
-			// add a transfer tx to the copied bundle
-			transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(200000000000000)) //0.00002  $0.1
-			if err != nil {
-				mu.Lock()
-				errs = append(errs, fmt.Errorf("failed to create transfer transaction: %v", err))
-				mu.Unlock()
-				return
+			var request JsonRpcRequest
+			if !backrunBundle {
+				// add a transfer tx to the copied bundle
+				transferTx, err := bot.createTransferTx(nonce, bot.config.BuildersEoaAddress[i], big.NewInt(200000000000000)) //0.00002  $0.1
+				if err != nil {
+					mu.Lock()
+					errs = append(errs, fmt.Errorf("failed to create transfer transaction: %v", err))
+					mu.Unlock()
+					return
+				}
+				transferTxBz, err := bot.getRawTransaction(transferTx)
+				if err != nil {
+					mu.Lock()
+					errs = append(errs, fmt.Errorf("failed to get raw transaction: %v", err))
+					mu.Unlock()
+					return
+				}
+				copiedBundle.Txs = append(copiedBundle.Txs, transferTxBz)
+				request = JsonRpcRequest{
+					JsonRpc: "2.0",
+					Method:  "eth_sendBundle",
+					Params:  []interface{}{copiedBundle},
+					ID:      1,
+				}
+			} else {
+				request = JsonRpcRequest{
+					JsonRpc: "2.0",
+					Method:  "eth_sendMevBundle",
+					Params:  []interface{}{copiedBundle},
+					ID:      1,
+				}
 			}
-			transferTxBz, err := bot.getRawTransaction(transferTx)
-			if err != nil {
-				mu.Lock()
-				errs = append(errs, fmt.Errorf("failed to get raw transaction: %v", err))
-				mu.Unlock()
-				return
-			}
-			copiedBundle.Txs = append(copiedBundle.Txs, transferTxBz)
 
-			// 创建JSON-RPC请求
-			request := JsonRpcRequest{
-				JsonRpc: "2.0",
-				Method:  "eth_sendBundle",
-				Params:  []interface{}{copiedBundle},
-				ID:      1,
-			}
-
-			// 转换为JSON
 			jsonData, err := json.Marshal(request)
 			if err != nil {
 				mu.Lock()
@@ -1472,7 +1786,7 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 			body, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
 				mu.Lock()
-				errs = append(errs, fmt.Errorf("failed to read response from %s: %v", builderURL, err))
+				errs = append(errs, fmt.Errorf("failed to read response from %s: %v, body: %s", builderURL, err, string(body)))
 				mu.Unlock()
 				return
 			}
@@ -1482,7 +1796,7 @@ func (bot *MEVBot) submitBundle(bundle BackrunBundle, skipSend bool, nonce uint6
 			err = json.Unmarshal(body, &response)
 			if err != nil {
 				mu.Lock()
-				errs = append(errs, fmt.Errorf("failed to parse response from %s: %v", builderURL, err))
+				errs = append(errs, fmt.Errorf("failed to parse response from %s: %v, body: %s", builderURL, err, string(body)))
 				mu.Unlock()
 				return
 			}
@@ -1845,10 +2159,17 @@ func loadConfig() Config {
 		}
 	}
 
+	backrunContractAddress := os.Getenv("BACKRUN_CONTRACT_ADDRESS")
+	if backrunContractAddress == "" {
+		log.Fatal("BACKRUN_CONTRACT_ADDRESS environment variable is required")
+	}
+	backrunContract := common.HexToAddress(backrunContractAddress)
+
 	return Config{
 		BuildersRpcURLs:              buildersRpcURLs,
 		NodeURL:                      os.Getenv("NODE_URL"),
 		WSURL:                        os.Getenv("WS_URL"),
+		ScutumURL:                    os.Getenv("SCUTUM_URL"),
 		PrivateKey:                   os.Getenv("PRIVATE_KEY"),
 		ChainID:                      chainID,
 		MinProfitThreshold:           minProfitThreshold,
@@ -1866,6 +2187,7 @@ func loadConfig() Config {
 		MaxGasTip:                    maxGasTip,
 		GasTipMultiplier:             gasTipMultiplier,
 		BuildersEoaAddress:           builders,
+		BackrunContractAddress:       backrunContract,
 	}
 }
 
@@ -1941,7 +2263,7 @@ func (bot *MEVBot) findOptimalBackrunAmount(swapInfo *SwapInfo) (*big.Int, *big.
 	// Perform binary search to find optimal input amount
 	bot.logger.Info("Starting binary search for optimal input amount")
 	//percentages := []int{10, 20, 30, 40, 50, 60, 70, 80, 90}
-	percentages := []int{50}
+	percentages := []int{20}
 	var bestInput, bestProfit *big.Int
 
 	for _, percentage := range percentages {
@@ -1954,7 +2276,7 @@ func (bot *MEVBot) findOptimalBackrunAmount(swapInfo *SwapInfo) (*big.Int, *big.
 		}
 
 		bot.logger.Debug("Calculating profit for input amount: %s (%d%% of max)", inputAmount.String(), percentage)
-		profit, err := bot.calculateBackrunProfit(strategy, inputAmount, reversedPath)
+		profit, err := bot.calculateBackrunProfit(strategy, inputAmount, reversedPath, swapInfo)
 		if err != nil {
 			bot.logger.Warning("Error calculating profit for %d%% input: %v", percentage, err)
 			continue
@@ -1978,64 +2300,439 @@ func (bot *MEVBot) findOptimalBackrunAmount(swapInfo *SwapInfo) (*big.Int, *big.
 	return bestInput, bestProfit, nil
 }
 
-// calculateBackrunProfit estimates the profit for a given backrun strategy and input amount
-func (bot *MEVBot) calculateBackrunProfit(strategy string, inputAmount *big.Int, path []common.Address) (*big.Int, error) {
-	ctx := context.Background()
+func (bot *MEVBot) calculateBackrunProfit(strategy string, inputAmount *big.Int, path []common.Address, victimSwapInfo *SwapInfo) (*big.Int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
-	// Get amounts out for the backrun
-	amountsOut, err := bot.getAmountsOut(ctx, PancakeRouterV2, path, inputAmount)
+	// 1. get reverses before the victim transaction happen
+	initialReserves, err := bot.getPathReserves(ctx, path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get expected output amounts: %v", err)
+		return nil, fmt.Errorf("failed to get initial reserves: %v", err)
 	}
 
-	expectedOutput := amountsOut[len(amountsOut)-1]
+	// 2. without the victim transaction, what we will get
+	normalOutput, err := bot.getAmountsOutWithReserves(initialReserves, path, inputAmount)
+	if err != nil {
+		return nil, fmt.Errorf("failed to calculate normal output: %v", err)
+	}
 
-	// Calculate profit based on strategy
+	// 3. simulate the victim transaction effect on the reserves
+	updatedReserves, err := bot.simulateVictimTransaction(ctx, initialReserves, victimSwapInfo)
+	if err != nil {
+		return nil, fmt.Errorf("failed to simulate victim transaction: %v", err)
+	}
+
+	// 4. calculate the backrun output with the updated reserves
+	backrunOutput, err := bot.getAmountsOutWithReserves(updatedReserves, path, inputAmount)
+	if err != nil {
+		return nil, fmt.Errorf("failed to calculate backrun output: %v", err)
+	}
+
+	// 5. calculate profit
 	var profit *big.Int
 
 	switch strategy {
 	case "TokenToETH":
-		// Converting token to ETH, profit is ETH received minus gas costs
-		profit = expectedOutput
+		normalETH := normalOutput[len(normalOutput)-1]
+		backrunETH := backrunOutput[len(backrunOutput)-1]
+		profit = new(big.Int).Sub(backrunETH, normalETH)
 
 	case "ETHToToken":
-		// Converting ETH to token, need to get token value in ETH
-		tokenValueInETH, err := bot.getTokenValueInETH(ctx, path[len(path)-1], expectedOutput)
-		if err != nil {
-			return nil, fmt.Errorf("failed to get token value in ETH: %v", err)
-		}
-		bot.logger.Info("Token value in BNB: %s", tokenValueInETH.String())
+		normalToken := normalOutput[len(normalOutput)-1]
+		backrunToken := backrunOutput[len(backrunOutput)-1]
+		extraToken := new(big.Int).Sub(backrunToken, normalToken)
 
-		// Profit is token value minus ETH spent
-		profit = new(big.Int).Sub(tokenValueInETH, inputAmount)
+		if extraToken.Sign() > 0 {
+			extraValueInETH, err := bot.getTokenValueInETH(ctx, path[len(path)-1], extraToken)
+			if err != nil {
+				return nil, fmt.Errorf("failed to get extra token value: %v", err)
+			}
+			profit = extraValueInETH
+		} else {
+			profit = big.NewInt(0)
+		}
 
 	case "TokenToToken":
-		// Converting token A to token B, need values in ETH
-		inputValueInETH, err := bot.getTokenValueInETH(ctx, path[0], inputAmount)
-		if err != nil {
-			return nil, fmt.Errorf("failed to get input token value in ETH: %v", err)
+		normalToken := normalOutput[len(normalOutput)-1]
+		backrunToken := backrunOutput[len(backrunOutput)-1]
+		extraToken := new(big.Int).Sub(backrunToken, normalToken)
+
+		if extraToken.Sign() > 0 {
+			extraValueInETH, err := bot.getTokenValueInETH(ctx, path[len(path)-1], extraToken)
+			if err != nil {
+				return nil, fmt.Errorf("failed to get extra token value: %v", err)
+			}
+			profit = extraValueInETH
+		} else {
+			profit = big.NewInt(0)
 		}
-		bot.logger.Info("input token value in BNB: %s", inputValueInETH.String())
+	}
+	gasCost := bot.calculateGasCost()
+	netProfit := new(big.Int).Sub(profit, gasCost)
 
-		outputValueInETH, err := bot.getTokenValueInETH(ctx, path[len(path)-1], expectedOutput)
+	bot.logger.Info("Strategy: %s, Input: %s, Normal output: %s, Backrun output: %s",
+		strategy, inputAmount, normalOutput[len(normalOutput)-1], backrunOutput[len(backrunOutput)-1])
+	bot.logger.Info("Raw profit: %s, Gas cost: %s, Net profit: %s",
+		profit, gasCost, netProfit)
+
+	return netProfit, nil
+}
+
+type PairReserves struct {
+	TokenA   common.Address
+	TokenB   common.Address
+	ReserveA *big.Int
+	ReserveB *big.Int
+}
+
+func (bot *MEVBot) getPathReserves(ctx context.Context, path []common.Address) ([]*PairReserves, error) {
+	reserves := make([]*PairReserves, len(path)-1)
+
+	for i := 0; i < len(path)-1; i++ {
+		tokenA := path[i]
+		tokenB := path[i+1]
+
+		pairAddr, err := bot.getPairAddress(ctx, PancakeFactoryV2, tokenA, tokenB)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get output token value in ETH: %v", err)
+			return nil, fmt.Errorf("failed to get pair address for %s-%s: %v",
+				tokenA.Hex(), tokenB.Hex(), err)
 		}
-		bot.logger.Info("output token value in BNB: %s", outputValueInETH.String())
+		reserve0, reserve1, err := bot.getReservesFromPair(ctx, pairAddr)
+		if err != nil {
+			return nil, fmt.Errorf("failed to get reserves for pair %s: %v",
+				pairAddr.Hex(), err)
+		}
 
-		// Profit is output value minus input value
-		profit = new(big.Int).Sub(outputValueInETH, inputValueInETH)
+		token0, err := bot.getToken0(ctx, pairAddr)
+		if err != nil {
+			return nil, fmt.Errorf("failed to get token0 for pair %s: %v",
+				pairAddr.Hex(), err)
+		}
 
-		bot.logger.Info("profit without gas: %s", profit.String())
+		if token0 == tokenA {
+			reserves[i] = &PairReserves{
+				TokenA:   tokenA,
+				TokenB:   tokenB,
+				ReserveA: reserve0,
+				ReserveB: reserve1,
+			}
+		} else {
+			reserves[i] = &PairReserves{
+				TokenA:   tokenA,
+				TokenB:   tokenB,
+				ReserveA: reserve1,
+				ReserveB: reserve0,
+			}
+		}
 	}
 
-	// Subtract estimated gas cost
-	gasCost := bot.calculateGasCost()
-	profit = new(big.Int).Sub(profit, gasCost)
+	return reserves, nil
+}
 
-	bot.logger.Info("Estimated gas cost: %s, profit after gas: %s", gasCost.String(), profit.String())
+// getAmountsOutWithReserves 使用指定的储备计算交易输出
+func (bot *MEVBot) getAmountsOutWithReserves(reserves []*PairReserves, path []common.Address, amountIn *big.Int) ([]*big.Int, error) {
+	if len(reserves) != len(path)-1 {
+		return nil, fmt.Errorf("reserves length (%d) does not match path length-1 (%d)",
+			len(reserves), len(path)-1)
+	}
 
-	return profit, nil
+	amounts := make([]*big.Int, len(path))
+	amounts[0] = amountIn
+
+	for i := 0; i < len(path)-1; i++ {
+		pair := reserves[i]
+
+		// 验证储备匹配路径
+		if (pair.TokenA != path[i] || pair.TokenB != path[i+1]) &&
+			(pair.TokenB != path[i] || pair.TokenA != path[i+1]) {
+			return nil, fmt.Errorf("reserve at index %d does not match path tokens %s-%s",
+				i, path[i].Hex(), path[i+1].Hex())
+		}
+
+		// 确保正确的方向
+		var reserveIn, reserveOut *big.Int
+		if pair.TokenA == path[i] {
+			reserveIn = pair.ReserveA
+			reserveOut = pair.ReserveB
+		} else {
+			reserveIn = pair.ReserveB
+			reserveOut = pair.ReserveA
+		}
+
+		// 计算输出时考虑 0.3% 手续费
+		amountInWithFee := new(big.Int).Mul(amounts[i], big.NewInt(997))
+		numerator := new(big.Int).Mul(amountInWithFee, reserveOut)
+		denominator := new(big.Int).Add(
+			new(big.Int).Mul(reserveIn, big.NewInt(1000)),
+			amountInWithFee,
+		)
+
+		amounts[i+1] = new(big.Int).Div(numerator, denominator)
+	}
+
+	return amounts, nil
+}
+
+// simulateVictimTransaction 使用真实前导交易数据模拟其对池状态的影响
+func (bot *MEVBot) simulateVictimTransaction(_ context.Context, initialReserves []*PairReserves, victimSwapInfo *SwapInfo) ([]*PairReserves, error) {
+	updatedReserves := make([]*PairReserves, len(initialReserves))
+	for i, reserve := range initialReserves {
+		updatedReserves[i] = &PairReserves{
+			TokenA:   reserve.TokenA,
+			TokenB:   reserve.TokenB,
+			ReserveA: new(big.Int).Set(reserve.ReserveA),
+			ReserveB: new(big.Int).Set(reserve.ReserveB),
+		}
+	}
+
+	victimPath := victimSwapInfo.Path
+	var amountIn *big.Int
+
+	switch victimSwapInfo.Function {
+	case "swapExactETHForTokens", "swapExactTokensForETH", "swapExactTokensForTokens":
+		amountIn = new(big.Int).Set(victimSwapInfo.AmountIn)
+		bot.logger.Debug("Victim transaction using exact input: %s", amountIn.String())
+	case "swapETHForExactTokens", "swapTokensForExactETH", "swapTokensForExactTokens":
+		exactOutput := victimSwapInfo.AmountOutMin
+
+		amounts, err := bot.getAmountsInWithReserves(initialReserves, victimPath, exactOutput)
+		if err != nil {
+			return nil, fmt.Errorf("failed to calculate required input amount: %v", err)
+		}
+
+		amountIn = amounts[0]
+		bot.logger.Debug("Victim transaction requires input: %s for exact output: %s",
+			amountIn.String(), exactOutput.String())
+
+	default:
+		return nil, fmt.Errorf("unsupported swap function: %s", victimSwapInfo.Function)
+	}
+	pathReserveIndices, err := bot.matchReservesToPath(updatedReserves, victimPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to match reserves to path: %v", err)
+	}
+	remainingAmountIn := new(big.Int).Set(amountIn)
+
+	for i := 0; i < len(victimPath)-1; i++ {
+		tokenIn := victimPath[i]
+		tokenOut := victimPath[i+1]
+		reserveIndex := pathReserveIndices[i]
+		pair := updatedReserves[reserveIndex]
+
+		var reserveIn, reserveOut *big.Int
+		var isReversed bool
+
+		if pair.TokenA == tokenIn && pair.TokenB == tokenOut {
+			reserveIn = pair.ReserveA
+			reserveOut = pair.ReserveB
+			isReversed = false
+			bot.logger.Debug("Pair %s-%s in normal order", tokenIn.Hex(), tokenOut.Hex())
+		} else if pair.TokenA == tokenOut && pair.TokenB == tokenIn {
+			reserveIn = pair.ReserveB
+			reserveOut = pair.ReserveA
+			isReversed = true
+			bot.logger.Debug("Pair %s-%s in reverse order", tokenIn.Hex(), tokenOut.Hex())
+		} else {
+			return nil, fmt.Errorf("pair tokens do not match path at index %d", i)
+		}
+
+		if reserveIn.Cmp(big.NewInt(0)) == 0 || reserveOut.Cmp(big.NewInt(0)) == 0 {
+			return nil, fmt.Errorf("zero reserves in pair at index %d", i)
+		}
+
+		var amountOut *big.Int
+
+		// 考虑0.3%的交易手续费
+		amountInWithFee := new(big.Int).Mul(remainingAmountIn, big.NewInt(997))
+		numerator := new(big.Int).Mul(amountInWithFee, reserveOut)
+
+		denominator := new(big.Int).Add(
+			new(big.Int).Mul(reserveIn, big.NewInt(1000)),
+			amountInWithFee,
+		)
+
+		amountOut = new(big.Int).Div(numerator, denominator)
+		bot.logger.Debug("Swap step %d: %s %s -> %s %s",
+			i, remainingAmountIn.String(), tokenIn.Hex(), amountOut.String(), tokenOut.Hex())
+
+		// 更新储备
+		if !isReversed {
+			pair.ReserveA = new(big.Int).Add(pair.ReserveA, remainingAmountIn)
+			pair.ReserveB = new(big.Int).Sub(pair.ReserveB, amountOut)
+			bot.logger.Debug("Updated reserves: %s %s, %s %s",
+				"ReserveA", pair.ReserveA.String(), "ReserveB", pair.ReserveB.String())
+		} else {
+			pair.ReserveB = new(big.Int).Add(pair.ReserveB, remainingAmountIn)
+			pair.ReserveA = new(big.Int).Sub(pair.ReserveA, amountOut)
+			bot.logger.Debug("Updated reserves: %s %s, %s %s",
+				"ReserveB", pair.ReserveB.String(), "ReserveA", pair.ReserveA.String())
+		}
+
+		// 特殊处理最后一步的输出金额
+		if i == len(victimPath)-2 &&
+			(victimSwapInfo.Function == "swapETHForExactTokens" ||
+				victimSwapInfo.Function == "swapTokensForExactETH" ||
+				victimSwapInfo.Function == "swapTokensForExactTokens") {
+			// 对于精确输出交易，最后一步确保精确输出
+			exactOutput := victimSwapInfo.AmountOutMin
+
+			// 检查计算的输出是否足够
+			if amountOut.Cmp(exactOutput) < 0 {
+				return nil, fmt.Errorf("calculated output %s less than required exact output %s",
+					amountOut.String(), exactOutput.String())
+			}
+
+			// 使用精确输出调整最终储备
+			outputDiff := new(big.Int).Sub(amountOut, exactOutput)
+
+			if !isReversed {
+				// 返还未使用的输出到储备B
+				pair.ReserveB = new(big.Int).Add(pair.ReserveB, outputDiff)
+				bot.logger.Debug("Adjusted final ReserveB for exact output: +%s", outputDiff.String())
+			} else {
+				// 返还未使用的输出到储备A
+				pair.ReserveA = new(big.Int).Add(pair.ReserveA, outputDiff)
+				bot.logger.Debug("Adjusted final ReserveA for exact output: +%s", outputDiff.String())
+			}
+
+			// 调整输出金额为精确要求
+			amountOut = exactOutput
+		}
+
+		// 为下一步准备输入金额
+		remainingAmountIn = amountOut
+	}
+
+	//bot.verifyKValueChanges(initialReserves, updatedReserves)
+
+	return updatedReserves, nil
+}
+
+// matchReservesToPath 找出路径上每个交易对对应的储备索引
+func (bot *MEVBot) matchReservesToPath(reserves []*PairReserves, path []common.Address) ([]int, error) {
+	if len(path) < 2 {
+		return nil, fmt.Errorf("path must contain at least 2 tokens")
+	}
+
+	indices := make([]int, len(path)-1)
+
+	for i := 0; i < len(path)-1; i++ {
+		tokenA := path[i]
+		tokenB := path[i+1]
+		found := false
+
+		for j, reserve := range reserves {
+			if (reserve.TokenA == tokenA && reserve.TokenB == tokenB) ||
+				(reserve.TokenA == tokenB && reserve.TokenB == tokenA) {
+				indices[i] = j
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			return nil, fmt.Errorf("no matching reserve found for tokens %s-%s in path",
+				tokenA.Hex(), tokenB.Hex())
+		}
+	}
+
+	return indices, nil
+}
+
+// getAmountsInWithReserves 计算要获得特定输出金额所需的输入金额
+func (bot *MEVBot) getAmountsInWithReserves(reserves []*PairReserves, path []common.Address, amountOut *big.Int) ([]*big.Int, error) {
+	if len(path) < 2 {
+		return nil, fmt.Errorf("path must contain at least 2 tokens")
+	}
+
+	amounts := make([]*big.Int, len(path))
+	amounts[len(amounts)-1] = amountOut
+
+	for i := len(path) - 1; i > 0; i-- {
+		tokenIn := path[i-1]
+		tokenOut := path[i]
+
+		var reserveIn, reserveOut *big.Int
+		var found bool
+
+		for _, reserve := range reserves {
+			if reserve.TokenA == tokenIn && reserve.TokenB == tokenOut {
+				reserveIn = reserve.ReserveA
+				reserveOut = reserve.ReserveB
+				found = true
+				break
+			} else if reserve.TokenA == tokenOut && reserve.TokenB == tokenIn {
+				reserveIn = reserve.ReserveB
+				reserveOut = reserve.ReserveA
+				found = true
+				break
+			}
+		}
+
+		if !found {
+			return nil, fmt.Errorf("no matching reserve found for tokens %s-%s",
+				tokenIn.Hex(), tokenOut.Hex())
+		}
+
+		// amountIn = (reserveIn * amountOut * 1000) / ((reserveOut - amountOut) * 997)
+		if amountOut.Cmp(reserveOut) >= 0 {
+			return nil, fmt.Errorf("insufficient liquidity for amount out")
+		}
+
+		numerator := new(big.Int).Mul(reserveIn, amountOut)
+		numerator = new(big.Int).Mul(numerator, big.NewInt(1000))
+
+		denominator := new(big.Int).Sub(reserveOut, amountOut)
+		denominator = new(big.Int).Mul(denominator, big.NewInt(997))
+
+		amountIn := new(big.Int).Div(numerator, denominator)
+		amountIn = new(big.Int).Add(amountIn, big.NewInt(1))
+
+		amounts[i-1] = amountIn
+		amountOut = amountIn
+	}
+
+	return amounts, nil
+}
+
+// verifyKValueChanges 验证并记录K值变化
+func (bot *MEVBot) verifyKValueChanges(initialReserves, updatedReserves []*PairReserves) {
+	if len(initialReserves) != len(updatedReserves) {
+		bot.logger.Warning("Cannot verify K values: reserve arrays have different lengths")
+		return
+	}
+
+	for i := 0; i < len(initialReserves); i++ {
+		initial := initialReserves[i]
+		updated := updatedReserves[i]
+
+		if initial.TokenA != updated.TokenA || initial.TokenB != updated.TokenB {
+			bot.logger.Warning("Cannot verify K value for pair %d: token mismatch", i)
+			continue
+		}
+
+		initialK := new(big.Int).Mul(initial.ReserveA, initial.ReserveB)
+		updatedK := new(big.Int).Mul(updated.ReserveA, updated.ReserveB)
+
+		// 计算变化百分比
+		if initialK.Cmp(big.NewInt(0)) > 0 {
+			// (updatedK - initialK) * 10000 / initialK 得到以基点(0.01%)表示的变化
+			diff := new(big.Int).Sub(updatedK, initialK)
+			diffBasisPoints := new(big.Int).Mul(diff, big.NewInt(10000))
+			diffBasisPoints = new(big.Int).Div(diffBasisPoints, initialK)
+
+			bot.logger.Debug("Pair %s-%s K value change: %s basis points (%s -> %s)",
+				initial.TokenA.Hex(), initial.TokenB.Hex(),
+				diffBasisPoints.String(), initialK.String(), updatedK.String())
+
+			// 检查K值是否增加了预期的约0.3%
+			// 实际上由于取整和精度问题，可能略有不同
+			if diffBasisPoints.Cmp(big.NewInt(25)) < 0 || diffBasisPoints.Cmp(big.NewInt(35)) > 0 {
+				bot.logger.Warning("Unusual K value change: %s basis points (expected ~30)",
+					diffBasisPoints.String())
+			}
+		}
+	}
 }
 
 // getTokenValueInETH gets the value of a token in ETH
@@ -2169,8 +2866,6 @@ func (bot *MEVBot) getValueViaIndirectPool(ctx context.Context, tokenA, tokenInt
 	if reserveInter2.Cmp(big.NewInt(0)) == 0 || reserveB.Cmp(big.NewInt(0)) == 0 {
 		return nil, fmt.Errorf("zero reserves in tokenInter-tokenB pair")
 	}
-
-	// Calculate combined exchange rate
 
 	// (reserveInter/reserveA) * (reserveB/reserveInter2)
 	rate1 := new(big.Float).Quo(new(big.Float).SetInt(reserveInter), new(big.Float).SetInt(reserveA))

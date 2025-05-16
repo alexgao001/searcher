@@ -30,3 +30,7 @@ logs
 *.apollo.backupfile
 
 .env
+
+# Local env files
+mainnet.env
+testnet.env
